@@ -1,0 +1,7 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.fontSize": 16,
+    "editor.wordWrap": "on",
+    "editor.cursorBlinking": "expand",
+    "editor.cursorWidth": 5,
+}
