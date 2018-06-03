@@ -55,9 +55,12 @@ export const isAuth = () => {
 
         if(user) {
             EDgram.innerHTML = app()
+            EDgram.classList.add('u-jc-flex-start')
             c('usuario autenticado')
         } else {
             EDgram.innerHTML = signIn()
+            EDgram.classList.remove('u-jc-flex-start')
+            
             c('no auth')
         }
     })
