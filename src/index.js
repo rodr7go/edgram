@@ -1,11 +1,13 @@
 import css from './style.scss'
+import {init} from './components/helpers/init'
+import { isAuth } from './components/auth';
 
+init()
 
-const page = `
-  <main class="Main">
-    <h2 class="Main-title">Hola Mundo con Vanilla JS, Webpack, & Sass</h2>
-    
+const app = `
+  <main class="EDgram">
+    ${isAuth()}
   </main>
 `
 
-document.getElementById('root').innerHTML = page
+document.getElementById('root').innerHTML = app
