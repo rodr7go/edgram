@@ -1,6 +1,7 @@
 import firebase from 'firebase'
-import { progressBar } from './upload_progress';
+import { progressBar, progressStatus, showProgress, hideProgress } from './upload_progress';
 import { errorMsg, successMsg } from './helpers/messages'
+import { savePhotoInDB } from './helpers/photos_db'
 
 const uploader = () => {
     const d = document,
@@ -23,7 +24,26 @@ const uploader = () => {
                 Array.from(e.target.files).forEach(file => {
 
                     if ( file.type.match('image.*') ) {
-                        output.innerHTML = successMsg('tu archivo si es una imagen')
+                        let uploadTask = storageRef.child(file.name).put(file)
+
+                        uploadTask.on('state_changed', data => {
+                            showProgress()
+                            progressStatus(data)
+                        }, err => {
+                            c(err, err.code, err.message)
+                            output.innerHTML = errorMsg(`${err.mesage}`, err)
+                        }, () => {
+                            storageRef.child(file.name).getDownloadURL()
+                                .then(url => {
+                                    c(url)
+                                    output.insertAdjacentHTML('afterBegin',
+                                        `${successMsg('Tu foto se ha subido')} <img src="${url}">
+                                    `)
+                                    savePhotoInDB(url,user)
+                                    hideProgress()
+                                })
+                                .catch(err => output.innerHTML = errorMsg(`${err.mesage}`, err))
+                        })
                     } else {
                         output.innerHTML = errorMsg('Tu archivo debe ser una imagen', null)
                     }
