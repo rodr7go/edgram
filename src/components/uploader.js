@@ -35,7 +35,7 @@ const uploader = () => {
                         }, () => {
                             storageRef.child(file.name).getDownloadURL()
                                 .then(url => {
-                                    c(url)
+                                    // c(url)
                                     output.insertAdjacentHTML('afterBegin',
                                         `${successMsg('Tu foto se ha subido')} <img src="${url}">
                                     `)
@@ -54,7 +54,7 @@ const uploader = () => {
         }
     }, 100)
     return `
-    <article class="Uploader  Content-section  u-show">
+    <article class="Uploader  Content-section u-hide">
       <h2 class="u-title">Sube tus Fotos</h2>
       <form name="upload" id="upload">
         <input type="file" id="uploader" multiple>
