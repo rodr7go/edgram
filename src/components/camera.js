@@ -114,7 +114,35 @@ const camera = () => {
                 cameraReset()
             })
 
-            uploadPhotoBtn.addEventListener('click', e => {})
+            uploadPhotoBtn.addEventListener('click', e => {
+                e.preventDefault()
+
+                const storageRef = firebase.storage().ref().child('photos'),
+                    dbRef = firebase.database().ref().child('photos'),
+                    user = firebase.auth().currentUser
+
+                let photoName = `photo_${Math.floor(Math.random()*10000000)}`,
+                    uploadTask = storageRef.child(photoName).putString(snapshot, 'data_url')
+                
+                uploadTask.on('state_changed', data => {
+                    showProgress()
+                    progressStatus(data)
+                }, err => {
+                    //c(err, err.code, err.message)
+                    output.innerHTML = errorMsg(`${err.mesage}`, err)
+                }, () => {
+                    storageRef.child(photoName).getDownloadURL()
+                        .then(url => {
+                            // c(url)
+                            output.innerHTML = successMsg('Tu foto se ha subido')
+                            savePhotoInDB(url,user)
+                            hideProgress()
+                            setTimeout(() => output.innerHTML = '', 3000)
+                            cameraReset()
+                        })
+                        .catch(err => output.innerHTML = errorMsg(`${err.mesage}`, err))
+                })
+            })
         }
     }, 100)
     return `
