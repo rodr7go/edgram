@@ -21,6 +21,7 @@ const profile = () => {
 				})
 				d.querySelector('.Profile-photos').innerHTML = profilePhotos
 			})
+			
 
 			dbRef.on('child_added', data => {
 				if (data.val().uid === user.uid) {
