@@ -11,7 +11,8 @@ const profile = () => {
 	const profileScripts = setInterval(() => {
 		if(d.readyState === 'complete') {
 			clearInterval(profileScripts)
-			dbRef.on('value', data => {
+
+			dbRef.once('value', data => {
 				// c(data, data.key, data.val().photoUrl)
 				data.forEach(photo => {
 					if (photo.val().uid === user.uid) {
@@ -21,6 +22,12 @@ const profile = () => {
 				d.querySelector('.Profile-photos').innerHTML = profilePhotos
 			})
 
+			dbRef.on('child_added', data => {
+				if (data.val().uid === user.uid) {
+					d.querySelector('.Profile-photos').innerHTML += `<img src="${data.val().photoUrl}">`
+				}
+			})
+
 		}
 	}, 100)
 	return `
@@ -28,7 +35,7 @@ const profile = () => {
 			<h2 class="Profile-name">${user.displayName}</h2>
 			<p class="Profile-email">${user.email}</p>
 			<img src="${user.photoURL}" alt="" class="Profile-avatar">
-			<h3>Tus fotos</h3>
+			<h3 class="u-title>Tus fotos"</h3>
 			<aside class="Profile-photos"></aside>
 		</article>
 `}
