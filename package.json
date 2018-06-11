@@ -1,5 +1,5 @@
 {
-  "name": "webpack-multi-starter-kit",
+  "name": "EDGram",
   "version": "1.0.0",
   "description": "Un kit para iniciar proyectos frontend con Vanilla JS y/o React y la filosofía de los componentes web, configurado y automatizado con Webpack.",
   "main": "src/index.js",
@@ -45,8 +45,10 @@
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^4.5.1",
     "firebase": "^5.0.4",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "webpack-pwa-manifest": "^3.6.2"
   }
 }
