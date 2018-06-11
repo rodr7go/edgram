@@ -146,7 +146,7 @@ const camera = () => {
         }
     }, 100)
     return `
-        <article id="camera-app" class="Camera Content-section u-show">
+        <article id="camera-app" class="Camera Content-section u-hide">
             <video muted id="camera-stream" class="Camera-video"></video>
             <img id="photo" class="Camera-photo">
             <nav class="Camera-menu">
