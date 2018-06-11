@@ -50,7 +50,71 @@ const camera = () => {
                 }
             }
 
+            function takeSnapShot () {
+                let width = video.videoWidth,
+                    height = video.videoHeight
+
+                canvas.width = width
+                canvas.height = height
+
+                context.drawImage(video, 0, 0, width, height)
+
+                return canvas.toDataURL('image/png')
+            }
+
+            function cameraReset () {
+                // volver a mostrar y reporducir el video
+                video.style.display = 'block'
+                video.play()
+
+                //Limpair el snapshot de la imagen dinamica y del enlace de descarga
+                photo.style.display = 'none'
+                photo.setAttribute('src', '')
+                downloadPhotoBtn.querySelector('a').href = '#'
+
+                //Deshabilitar botono de eliminar, subir y descargar
+                deletePhotoBtn.classList.add('u-disabled')
+                uploadPhotoBtn.classList.add('u-disabled')
+                downloadPhotoBtn.classList.add('u-disabled')
+            }
+
             cameraInit()
+            canvas.style.display = 'none'
+
+            startCameraBtn.addEventListener('click', e => {
+                e.preventDefault()
+                video.play()
+                video.style.display = 'block'
+                photo.style.display = 'none'
+            })
+
+            takePhotoBtn.addEventListener('click', e => {
+                e.preventDefault()
+                // Pausamos y ocultamos el video
+                video.style.display = 'none'
+                video.pause()
+
+                // Mostramos la captura de la camara en una imagen
+                snapshot = takeSnapShot()
+                photo.style.display = 'block'
+                photo.setAttribute('src',snapshot)
+
+                //Asignar la imagen capturada al enlace de descarga
+                downloadPhotoBtn.querySelector('a').href = snapshot
+
+                //Habilitar botono de eliminar, subir y descargar
+                deletePhotoBtn.classList.remove('u-disabled')
+                uploadPhotoBtn.classList.remove('u-disabled')
+                downloadPhotoBtn.classList.remove('u-disabled')
+
+            })
+
+            deletePhotoBtn.addEventListener('click', e => {
+                e.preventDefault()
+                cameraReset()
+            })
+
+            uploadPhotoBtn.addEventListener('click', e => {})
         }
     }, 100)
     return `
